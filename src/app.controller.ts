@@ -21,7 +21,12 @@ export class AppController {
   }
 
   @Get('products/:productId')
-  getProducts(@Param() params: any) {
-    return `product con id: ${params.productId}`;
+  getProducts(@Param('productId') productId: string) {
+    return `product con id: ${productId}`;
+  }
+  
+  @Get('categories/:id/products/:productId')
+  getCategory(@Param('productId') productId: string, @Param('id') id: string) {
+    return `product con id: ${productId} y categoria id: ${id}`;
   }
 }
