@@ -1,9 +1,9 @@
-import { Controller, Get, Param} from '@nestjs/common';
+import { Controller, Get, Param, Query } from '@nestjs/common';
 import { AppService } from './app.service';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(private readonly appService: AppService) { }
 
   @Get()
   getHello(): string {
@@ -20,11 +20,28 @@ export class AppController {
     return 'hello friend';
   }
 
+  @Get('products')
+  getProducts(
+    @Query('limit') limit = 100,
+    @Query('offset') offset = 0,
+    @Query('brand') brand: string,
+  ) {
+    return `products limit => ${limit} offset => ${offset} brand => ${brand}`;
+  }
+
+  // Primero van los metodos con rutas estatitos
+  @Get('products/filter')
+  getProductsFilter() {
+    return `yo soy un filter`;
+  }
+
+  
+  // Luego van las metodos con rutas dinamicas
   @Get('products/:productId')
-  getProducts(@Param('productId') productId: string) {
+  getProduct(@Param('productId') productId: string) {
     return `product con id: ${productId}`;
   }
-  
+
   @Get('categories/:id/products/:productId')
   getCategory(@Param('productId') productId: string, @Param('id') id: string) {
     return `product con id: ${productId} y categoria id: ${id}`;
